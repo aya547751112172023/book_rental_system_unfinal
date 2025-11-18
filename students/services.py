@@ -3,11 +3,19 @@ import students.models as models
 
 
 def get_students(conn: MySQLConnection):
-    print(conn)
     cursor = conn.cursor()
     query = "SELECT * FROM students"
     cursor.execute(query)
     results = cursor.fetchall()
+    return results
+
+
+def get_student(conn: MySQLConnection, payload: models.Delete_Student):
+    cursor = conn.cursor()
+    query = "SELECT * FROM students WHERE student_id = %s"
+    values = (payload.student_id,)
+    cursor.execute(query, values)
+    results = cursor.fetchone()
     return results
 
 

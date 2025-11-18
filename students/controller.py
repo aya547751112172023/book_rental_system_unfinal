@@ -1,10 +1,17 @@
 from fastapi import APIRouter, Depends, Request
 from database import get_db_connection
 from mysql.connector.connection import MySQLConnection
-from .models import Student, Insert_Student, Delete_Student
-from .services import get_students, insert_student, update_student, delete_student
 
-router = APIRouter(prefix="/table_name")
+from .models import Student, Insert_Student, Delete_Student
+from .services import (
+    get_students,
+    get_student,
+    insert_student,
+    update_student,
+    delete_student,
+)
+
+router = APIRouter(prefix="/students")
 
 
 @router.get("/")
@@ -23,6 +30,17 @@ def api_insert_student(
     try:
         results = insert_student(conn=conn, payload=payload)
         return {"message": f"Student inserted with id: {results}"}
+    except Exception as e:
+        return {"message": "Error occurred while executing function", "error": str(e)}
+
+
+@router.post("/id")
+def api_get_student(
+    payload: Delete_Student, conn: MySQLConnection = Depends(get_db_connection)
+):
+    try:
+        data = get_student(conn=conn, payload=payload)
+        return {"data": data}
     except Exception as e:
         return {"message": "Error occurred while executing function", "error": str(e)}
 
