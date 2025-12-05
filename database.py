@@ -17,7 +17,7 @@ try:
         pool_size=5,  # duplicates
         host=DB_HOST,  # -h
         user=DB_USER,  # -u
-        # password=DB_PASSWORD, # -p
+        password=DB_PASSWORD, # -p
         database=DB_NAME,  # USE DB_NAME
     )
     print("Database connection pool created successfully.")
